@@ -17,3 +17,27 @@
 #                password: 'abc123',
 #                password_confirmation: nil)
 # end
+
+
+Birthday.create([
+                { given_name: 'Ben',
+                  family_name: 'Adamski',
+                  nickname: 'VapeKing',
+                   born_on: '2017-01-01'},
+                { given_name: 'Rachel',
+                  family_name: 'Stevens',
+                 nickname: 'Horse Enthusiast',
+                 born_on: '2017-01-02'},
+                { given_name: 'Julie',
+                  family_name: 'Carroll',
+                 nickname: 'Getting everyone jobs',
+                 born_on: '2017-01-03' },
+                { given_name: 'Lu',
+                  family_name: 'Nathan',
+                 nickname: 'iPhone guru',
+                 born_on: '2017-01-04' },
+                { given_name: 'Naida',
+                  family_name: 'the Pollster',
+                 nickname: 'Keeping us all caffinated',
+                 born_on: '2017-01-05' }
+              ])
