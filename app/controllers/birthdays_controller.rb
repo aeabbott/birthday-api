@@ -1,4 +1,4 @@
-class BirthdaysController < ApplicationController
+class BirthdaysController < ProtectedController
   before_action :set_birthday, only: [:show, :update, :destroy]
 
   # GET /birthdays
@@ -15,13 +15,16 @@ class BirthdaysController < ApplicationController
 
   # POST /birthdays
   def create
-    @birthday = Birthday.new(birthday_params)
+    # @birthday = Birthday.new(birthday_params)
+
+    @birthday = current_user.birthdays.build(birthday_params)
 
     if @birthday.save
-      render json: @birthday, status: :created, location: @birthday
+    render json: @birthday, status: :created
     else
-      render json: @birthday.errors, status: :unprocessable_entity
+    render json: @birthday.errors, status: :unprocessable_entity
     end
+
   end
 
   # PATCH/PUT /birthdays/1
