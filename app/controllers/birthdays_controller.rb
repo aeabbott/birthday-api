@@ -3,7 +3,7 @@ class BirthdaysController < ProtectedController
 
   # GET /birthdays
   def index
-    @birthdays = Birthday.all
+    @birthdays = current_user.birthdays.all
 
     render json: @birthdays
   end
