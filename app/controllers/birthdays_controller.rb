@@ -20,7 +20,7 @@ class BirthdaysController < ProtectedController
     @birthday = current_user.birthdays.build(birthday_params)
 
     if @birthday.save
-    render json: @birthday, status: :created
+    render json: @birthday, status: :created, location: @birthday
     else
     render json: @birthday.errors, status: :unprocessable_entity
     end
