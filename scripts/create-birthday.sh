@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#ID = 1 TOKEN=BAhJIiU4N2U4ZjNiMDhkODE1NDk4YTA4ZjYxMjBjZTBmZWZmOAY6BkVG--2146f3b5ca1bac672cc5c3f77459f4433567ee5f
+#ID = 1 TOKEN=BAhJIiU1YjUwOWMxYjIwOWRlNDM0NTkzZjBhMmE1ZDkzZmI1MgY6BkVG--5fb97fd81c8bceba2fa22a9eb56ab5e6feef9c67
 API="${API_ORIGIN:-http://localhost:4741}"
 URL_PATH="/birthdays"
 curl "${API}${URL_PATH}" \
@@ -18,3 +18,5 @@ curl "${API}${URL_PATH}" \
   }'
 
 echo
+
+BAhJIiU1YjUwOWMxYjIwOWRlNDM0NTkzZjBhMmE1ZDkzZmI1MgY6BkVG--5fb97fd81c8bceba2fa22a9eb56ab5e6feef9c67

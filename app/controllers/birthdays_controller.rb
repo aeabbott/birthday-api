@@ -3,13 +3,14 @@ class BirthdaysController < ProtectedController
 
   # GET /birthdays
   def index
-    @birthdays = current_user.birthdays.all
+    @birthdays = current_user.birthdays
 
     render json: @birthdays
   end
 
   # GET /birthdays/1
   def show
+
     render json: @birthday
   end
 
@@ -29,8 +30,9 @@ class BirthdaysController < ProtectedController
 
   # PATCH/PUT /birthdays/1
   def update
+
     if @birthday.update(birthday_params)
-      render json: @birthday
+      head :no_content
     else
       render json: @birthday.errors, status: :unprocessable_entity
     end
