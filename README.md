@@ -1,10 +1,9 @@
 [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-# rails-api-template
+# birthday-api
 
-A template for starting projects with `rails-api`. Includes authentication.
+An api for storing your birthdays you'd like to remember. Includes authentication.
 
-At the beginning of each cohort, update the versions in [`Gemfile`](Gemfile).
 
 ## Dependencies
 
@@ -24,13 +23,12 @@ version of Rails 4, as well as track `master` branches for `rails-api` and
 
 1.  [Download](../../archive/master.zip) this template.
 1.  Unzip and rename the template directory.
-1.  Empty [`README.md`](README.md) and fill with your own content.
 1.  Move into the new project and `git init`.
 1.  Install dependencies with `bundle install`.
 1.  Rename your app module in `config/application.rb` (change
-    `RailsApiTemplate`).
+    `BirthdayApi`).
 1.  Rename your project database in `config/database.yml` (change
-    `'rails-api-template'`).
+    `'birthday-api'`).
 1.  Create a `.env` for sensitive settings (`touch .env`).
 1.  Generate new `development` and `test` secrets (`bundle exec rake secret`).
 1.  Store them in `.env` with keys `SECRET_KEY_BASE_<DEVELOPMENT|TEST>`
@@ -45,38 +43,227 @@ version of Rails 4, as well as track `master` branches for `rails-api` and
     db:nuke_pave`.
 1.  Run the API server with `bin/rails server` or `bundle exec rails server`.
 
-## Structure
-
-This template follows the standard project structure in Rails 4.
-
-`curl` command scripts are stored in [`scripts`](scripts) with names that
-correspond to API actions.
-
-User authentication is built-in.
-
-## Tasks
-
-Developers should run these often!
-
--   `bin/rake routes` lists the endpoints available in your API.
--   `bin/rake test` runs automated tests.
--   `bin/rails console` opens a REPL that pre-loads the API.
--   `bin/rails db` opens your database client and loads the correct database.
--   `bin/rails server` starts the API.
--   `scripts/*.sh` run various `curl` commands to test the API. See below.
-
-<!-- TODO -   `rake nag` checks your code style. -->
-<!-- TODO -   `rake lint` checks your code for syntax errors. -->
 
 ## API
 
-Use this as the basis for your own API documentation. Add a new third-level
-heading for your custom entities, and follow the pattern provided for the
-built-in user authentication documentation.
+The Birthday section outlines the CRUD actions you can perform against /birthdays.
 
-Scripts are included in [`scripts`](scripts) to test built-in actions. Add your
-own scripts to test your custom API. As an alternative, you can write automated
-tests in RSpec to test your API.
+The Authetnication section outlines the CRUD actions you can perform against
+/users.
+
+All birthday API actions require a TOKEN. You must authenticate your user first via the authentication portion of the API before you can run an CRUD requests on /birthdays.
+
+### Birthday
+| Verb   | URI Pattern            | Controller#Action  |
+|--------|------------------------|--------------------|
+| POST   | `/birthdays`            | `birthdays#create` |
+| GET    | `/birthdays`           | `birthdays#index`  |
+| GET    | `/birthdays/:id`       | `birthdays#show`   |
+| PATCH  | `/birthdays/:id`       | `birthdays#update` |
+| DELETE | `/birthdays/:id`       | `birthdays#destroy`|
+
+### POST /birthdays
+
+Requets:
+
+```sh
+API="${API_ORIGIN:-http://localhost:4741}"
+URL_PATH="/birthdays"
+curl "${API}${URL_PATH}" \
+  --include \
+  --request POST \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Token token=$TOKEN" \
+  --data '{
+    "birthday": {
+      "born_on":"1990-02-15",
+      "family_name":"last name",
+      "given_name":"first name",
+      "nickname":"nickname"
+    }
+  }'
+  ```
+  ```sh
+  TOKEN= BAhJIiU2MDg5NzJhNmExYmE4MjU0NzNjYThlZTI0MjQ2NGEwNgY6BkVG--e46f5a5ed540f0bdde2908ac40ac2792ed68b758
+  ```
+  Response:
+
+  ```md
+  HTTP/1.1 201 Created
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  X-Content-Type-Options: nosniff
+  Location: http://localhost:4741/birthdays/62
+  Content-Type: application/json; charset=utf-8
+  ETag: W/"2239de4079385fc19ec859f65244927c"
+  Cache-Control: max-age=0, private, must-revalidate
+  X-Request-Id: 64f4425d-f49b-42b5-b0bb-bd07c1651d19
+  X-Runtime: 0.015744
+  Vary: Origin
+  Transfer-Encoding: chunked
+
+  {
+    "birthday": {
+      "id":62,
+      "given_name":"first name",
+      "family_name":"last name",
+      "nickname":"nickname",
+      "born_on":"1990-02-15"
+      }
+    }
+  ```
+### GET /birthdays
+
+Requests:
+
+```sh
+curl --include --request GET http://localhost:4741/birthdays \
+  --header "Authorization: Token token=$TOKEN"
+```
+```sh
+TOKEN= BAhJIiU2MDg5NzJhNmExYmE4MjU0NzNjYThlZTI0MjQ2NGEwNgY6BkVG--e46f5a5ed540f0bdde2908ac40ac2792ed68b758
+```
+
+Response:
+```md
+HTTP/1.1 200 OK
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Type: application/json; charset=utf-8
+ETag: W/"a0b6a570037f1c1414cabf5f823fe412"
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 7d9bb6c2-3ef9-4b44-8055-238a3b44fb3a
+X-Runtime: 0.156077
+Vary: Origin
+Transfer-Encoding: chunked
+
+{
+  "birthdays":
+    [
+      {
+        "id":15,
+        "given_name":" udpated first name",
+        "family_name":"updated last name",
+        "nickname":"updatednickname",
+        "born_on":"2000-02-15"
+      },
+      {
+        "id":18,
+        "given_name":" udpated first name",
+        "family_name":"updated last name",
+        "nickname":"updatednickname",
+        "born_on":"2000-02-15"
+      },
+      {
+        "id":19,
+        "given_name":" udpated first name",
+        "family_name":"updated last name",
+        "nickname":"updated nickname",
+        "born_on":"2000-02-15"
+      }
+    ]
+  }
+```
+
+### GET /birthdays/:id
+
+Requests:
+
+```sh
+curl --include --request GET http://localhost:4741/birthdays/3 \
+  --header "Authorization: Token token=$TOKEN"
+```
+```sh
+TOKEN= BAhJIiU2MDg5NzJhNmExYmE4MjU0NzNjYThlZTI0MjQ2NGEwNgY6BkVG--e46f5a5ed540f0bdde2908ac40ac2792ed68b758
+```
+
+Response:
+```md
+HTTP/1.1 200 OK
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Type: application/json; charset=utf-8
+ETag: W/"989397d0fbdd046087d9b282a3f3dc5b"
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 31a19f05-5f2e-4765-b717-c33da270e201
+X-Runtime: 0.006820
+Vary: Origin
+Transfer-Encoding: chunked
+
+{
+  "birthday":
+  {
+    "id":3,
+    "given_name":"Julie",
+    "family_name":"Carroll",
+    "nickname":"Getting everyone jobs",
+    "born_on":"2017-01-03"
+    }
+  }
+```
+
+### PATCH /birthdays/:id
+
+Requests:
+
+```sh
+curl --include --request PATCH http://localhost:4741/birthdays/$ID \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Token token=$TOKEN"\
+  --data '{
+    "birthday": {
+      "born_on":"2000-02-15",
+      "family_name":"updated once more name",
+      "given_name":" udpated first name",
+      "nickname":"updated nickname"
+    }
+  }'
+```
+```sh
+ID=15
+TOKEN= BAhJIiU2MDg5NzJhNmExYmE4MjU0NzNjYThlZTI0MjQ2NGEwNgY6BkVG--e46f5a5ed540f0bdde2908ac40ac2792ed68b758
+```
+
+Response:
+
+```md
+HTTP/1.1 204 No Content
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Cache-Control: no-cache
+X-Request-Id: 1676e028-7a26-43f2-a97e-350d06185416
+X-Runtime: 0.016970
+Vary: Origin
+
+```
+
+### DELETE /birthdays/:id
+
+```sh
+curl --include --request DELETE http://localhost:4741/birthdays/$ID \
+--header "Content-Type: application/json" \
+--header "Authorization: Token token=$TOKEN"\
+```
+
+```sh
+ID=15
+TOKEN= BAhJIiU2MDg5NzJhNmExYmE4MjU0NzNjYThlZTI0MjQ2NGEwNgY6BkVG--e46f5a5ed540f0bdde2908ac40ac2792ed68b758
+```
+Response:
+
+```md
+HTTP/1.1 204 No Content
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Cache-Control: no-cache
+X-Request-Id: b414abbe-1982-46dd-ab7d-83a75be200a2
+X-Runtime: 0.012465
+Vary: Origin
+```
 
 ### Authentication
 
@@ -275,6 +462,7 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
+
 ### Reset Database without dropping
 
 This is not a task developers should run often, but it is sometimes necessary.
@@ -298,4 +486,3 @@ heroku run rake db:migrate db:seed db:examples
 1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
 1.  All software code is licensed under GNU GPLv3. For commercial use or
     alternative licensing, please contact legal@ga.co.
-# birthday-api
