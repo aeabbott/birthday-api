@@ -4,6 +4,8 @@
 
 An api for storing your birthdays you'd like to remember. Includes authentication.
 
+1. Link to app: https://aeabbott.github.io/birthday-client/
+1. Link to client repo: https://github.com/aeabbott/birthday-client
 
 ## Dependencies
 
