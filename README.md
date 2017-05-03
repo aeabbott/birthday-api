@@ -6,6 +6,7 @@ An api for storing your birthdays you'd like to remember. Includes authenticatio
 
 1. Link to app: https://aeabbott.github.io/birthday-client/
 1. Link to client repo: https://github.com/aeabbott/birthday-client
+1. Link to deployed backend: https://pacific-brushlands-38706.herokuapp.com/
 
 ## Dependencies
 
